@@ -16,14 +16,14 @@
   --font-display: "Plus Jakarta Sans", sans-serif;
 }
 :root {
-  --background: oklch(0.98 0.003 260);
-  --foreground: oklch(0.21 0.035 264);
-  --primary: oklch(0.24 0.059 255);
+  --background: oklch(0.978932 0.002865 264.5421);
+  --foreground: oklch(0.210084 0.031763 264.6645);
+  --primary: oklch(0.239273 0.058111 256.6603);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.365 0.102 255);
-  --accent: oklch(0.746 0.145 87);
+  --secondary: oklch(0.365338 0.102753 255.4953);
+  --accent: oklch(0.749757 0.140726 87.0625);
   --muted: oklch(0.957 0.008 255);
-  --muted-foreground: oklch(0.555 0.041 257);
+  --muted-foreground: oklch(0.554391 0.040717 257.4166);
   --border: oklch(0.915 0.013 255);
   --card: oklch(1 0 0);
   --destructive: oklch(0.55 0.19 27);
