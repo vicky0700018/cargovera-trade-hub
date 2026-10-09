@@ -1,0 +1,12 @@
+export function pageMeta(title: string, description: string) {
+  return {
+    meta: [
+      { title: `${title} — CARGOVERA TRADING LLP` },
+      { name: "description", content: description },
+      { property: "og:title", content: `${title} — CARGOVERA TRADING LLP` },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  };
+}
