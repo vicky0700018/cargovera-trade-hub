@@ -3,6 +3,6 @@
 - [x] Build complete public pages and navigation.
 - [x] Build browser-persisted content store and protected demo admin pages.
 - [x] Verify admin editing, contact enquiries, navigation and mobile layouts.
-- [ ] Expand to at least 25 distinct relevant photos across all major pages.
-- [ ] Verify image loading, fallback behavior, gallery diversity and responsive visibility.
+- [x] Expand to 27 distinct relevant photos across all major pages, including 16 different gallery images.
+- [x] Verify all public-page images, saved hero fallback, gallery viewer and desktop/tablet/phone visibility; all 29 hosted asset URLs return valid image content.
 - [ ] Verify images on the deployed Vercel website (requires its deployment URL).
