@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { active, photos, useData, type Entry } from "@/lib/cargovera-data";
 import { tradeImages } from "@/lib/trade-images";
 import { TradeImage } from "./trade-image";
+import { HeroSlides } from "./hero-slides";
 import { ActionLink, Brand, Button, Icon, SectionHeading } from "./ui";
 const nav = [
   ["Home", "/"],
@@ -451,13 +452,7 @@ export function HomePage() {
     <PublicLayout>
       {data.hero.status === "Active" && (
         <section className="hero">
-          <TradeImage
-            className="hero-image"
-            src={data.hero.image || photos[0]}
-            alt="Container vessel at an international shipping port"
-            width={1920}
-            height={1024}
-          />
+          <HeroSlides image={data.hero.image} />
           <div className="container">
             <div className="hero-eyebrow">{data.company.name} · GLOBAL TRADE PARTNER</div>
             <h1>
@@ -496,12 +491,6 @@ export function HomePage() {
                 Lasting Partnerships
               </span>
             </div>
-          </div>
-          <div className="hero-bottom">
-            <b />
-            <i />
-            <i />
-            <span>GLOBAL TRADE, CONNECTED.</span>
           </div>
         </section>
       )}
