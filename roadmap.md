@@ -1,5 +1,5 @@
 # CARGOVERA website
-- [ ] Build unified corporate design and image library.
-- [ ] Build complete public pages and navigation.
-- [ ] Build browser-persisted content store and protected demo admin pages.
-- [ ] Verify admin editing, contact enquiries, navigation and mobile layouts.
+- [x] Build unified corporate design and image library.
+- [x] Build complete public pages and navigation.
+- [x] Build browser-persisted content store and protected demo admin pages.
+- [x] Verify admin editing, contact enquiries, navigation and mobile layouts.
