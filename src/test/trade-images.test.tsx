@@ -9,7 +9,7 @@ describe('Trade image coverage', () => {
     expect(new Set(Object.values(tradeImages).map((p) => p.url)).size).toBeGreaterThanOrEqual(25);
     expect(new Set(galleryImages.map((p) => p.url)).size).toBe(16);
     expect(Object.values(tradeImages).every((p) => p.alt.length > 25)).toBe(true);
-    expect(new Set(initialData.products.map((p) => p.image)).size).toBe(6);
+    expect(new Set(initialData.products.map((p) => p.image)).size).toBe(10);
     expect(new Set(initialData.services.map((p) => p.image)).size).toBe(6);
   });
   it('preserves administrator image choices and edited text during upgrades', () => {
@@ -25,6 +25,21 @@ describe('Trade image coverage', () => {
     const saved = structuredClone(initialData);
     saved.gallery = saved.gallery.slice(1);
     expect(upgradeImages(saved).gallery).toEqual(saved.gallery);
+  });
+  it('adds four categories to existing saved content once and preserves admin changes', () => {
+    const saved = structuredClone(initialData);
+    delete saved.productVersion;
+    saved.products = saved.products.slice(0, 6);
+    const first = saved.products[0];
+    if (!first) throw new Error('Missing seed');
+    first.title = 'Admin edited product';
+    first.status = 'Inactive';
+    const upgraded = upgradeImages(saved);
+    expect(upgraded.products).toHaveLength(10);
+    expect(upgraded.products[0]).toEqual(first);
+    expect(upgradeImages(upgraded).products).toHaveLength(10);
+    upgraded.products = upgraded.products.slice(0, 8);
+    expect(upgradeImages(upgraded).products).toHaveLength(8);
   });
   it('uses a relevant fallback and then a bundled photograph when an image fails', () => {
     render(<TradeImage src="https://example.com/missing.jpg" alt="Custom product" fallback={tradeImages.warehouse.url} />);
