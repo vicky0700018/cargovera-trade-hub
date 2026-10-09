@@ -89,7 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -132,12 +135,15 @@ function DynamicTitle() {
     if (!ready) return;
     const sync = () => {
       const path = window.location.pathname;
-      const key = path === '/' ? 'Home' : path.split('/').filter(Boolean).at(-1)?.replaceAll('-', ' ') || 'Home';
+      const key =
+        path === "/"
+          ? "Home"
+          : path.split("/").filter(Boolean).at(-1)?.replaceAll("-", " ") || "Home";
       const label = key.charAt(0).toUpperCase() + key.slice(1);
       document.title = `${label} — ${data.settings.seoTitle || data.company.name}`;
     };
     sync();
-    return router.subscribe('onResolved', sync);
+    return router.subscribe("onResolved", sync);
   }, [data.settings.seoTitle, data.company.name, ready, router]);
   return null;
 }
