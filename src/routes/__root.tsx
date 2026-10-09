@@ -133,7 +133,7 @@ function DynamicTitle() {
     const sync = () => {
       const path = window.location.pathname;
       const key = path === '/' ? 'Home' : path.split('/').filter(Boolean).at(-1)?.replaceAll('-', ' ') || 'Home';
-      const label = key[0].toUpperCase() + key.slice(1);
+      const label = key.charAt(0).toUpperCase() + key.slice(1);
       document.title = `${label} — ${data.settings.seoTitle || data.company.name}`;
     };
     sync();
