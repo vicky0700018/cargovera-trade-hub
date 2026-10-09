@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import heroImage from "@/assets/trade-hero.jpg";
-import { tradeImages, galleryImages } from './trade-images';
+import { tradeImages, galleryImages, galleryCategories } from './trade-images';
 export const photos = Object.values(tradeImages).map((image) => image.url);
 export type Entry = {
   id: string;
@@ -29,7 +29,7 @@ type Settings = Record<
   "footer" | "facebook" | "linkedin" | "instagram" | "seoTitle" | "heroCTA",
   string
 >;
-export type SiteData = { company: Company; hero: Hero; settings: Settings } & Record<
+export type SiteData = { company: Company; hero: Hero; settings: Settings; imageVersion?: number } & Record<
   Collection,
   Entry[]
 >;
@@ -49,6 +49,7 @@ const item = (
   ...extra,
 });
 export const initialData: SiteData = {
+  imageVersion: 2,
   company: {
     name: "CARGOVERA TRADING LLP",
     partners: "AAYUSH RAI, PARAM RAJESH PARDESHI",
@@ -165,7 +166,7 @@ export const initialData: SiteData = {
   ),
   gallery: galleryImages.map((image, i) =>
     item(image.alt, "Trading and business imagery for illustrative purposes.", image.url,
-      ["Shipping", "Warehousing", "Logistics", "Products", "Business"][i % 5] || "Trading"),
+      galleryCategories[i] || "Trading"),
   ),
   testimonials: [
     item(
@@ -201,6 +202,7 @@ export const initialData: SiteData = {
 const legacyPhotoUrls = new Set<string>(["/__l5e/assets-v1/c14a6b48-6914-4408-9f94-9d137f6a87c9/photo-4.jpg", "/__l5e/assets-v1/da67c12b-232b-4c51-83d5-9c9edfbd3bb8/photo-0.jpg", "/__l5e/assets-v1/f7fdb3fa-718c-4d39-842d-ca5c51453e3f/photo-3.jpg", "/__l5e/assets-v1/6c3e2971-7762-4703-9498-cf0e69bddc35/photo-2.jpg", "/__l5e/assets-v1/7929e75b-b315-4033-8e7e-f842878d3aba/photo-1.jpg", "/__l5e/assets-v1/19301c63-a74c-4195-8635-8fc346762178/photo-5.jpg", "/__l5e/assets-v1/bc6e7f36-999d-4544-ae9e-44fd1edc3d7a/photo-7.jpg", "/__l5e/assets-v1/abb0b8b8-f60f-4d69-b953-f88192a4e589/photo-10.jpg", "/__l5e/assets-v1/8c1f9355-0aed-45eb-a973-aaf0945f75c4/photo-11.jpg", "/__l5e/assets-v1/d6ece85a-9b6d-4ab4-9842-77945c653963/photo-9.jpg", "/__l5e/assets-v1/9c315b2a-ac56-4704-8373-6a64c64b3751/photo-6.jpg", "/__l5e/assets-v1/bd020778-a1d5-401c-aa5f-520d1436fcae/port.jpg", "/__l5e/assets-v1/abae19b4-b11e-42d5-9282-d19820526328/warehouse.jpg", "/__l5e/assets-v1/65b6f1cf-5e9f-4061-8989-68d3ee212fb7/cargo.jpg"]);
 export function upgradeImages(saved: SiteData): SiteData {
   const merged = { ...initialData, ...saved };
+  if (saved.imageVersion === 2) return merged;
   for (const collection of ['products', 'services', 'markets'] as const) {
     merged[collection] = merged[collection].map((entry) => {
       const seed = initialData[collection].find((item) => item.id === entry.id);
@@ -211,7 +213,7 @@ export function upgradeImages(saved: SiteData): SiteData {
     const custom = merged.gallery.filter((entry) => !legacyPhotoUrls.has(entry.image) || entry.description !== 'Trading and business imagery for illustrative purposes.');
     merged.gallery = [...initialData.gallery, ...custom.filter((entry) => !initialData.gallery.some((seed) => seed.image === entry.image))];
   }
-  return merged;
+  return { ...merged, imageVersion: 2 };
 }
 const KEY = "cargovera-cms-v1";
 const DataContext = createContext<{

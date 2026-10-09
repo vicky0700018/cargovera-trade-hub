@@ -14,11 +14,17 @@ describe('Trade image coverage', () => {
   });
   it('preserves administrator image choices and edited text during upgrades', () => {
     const saved = structuredClone(initialData);
+    delete saved.imageVersion;
     const first = saved.products[0];
     if (!first) throw new Error('Missing seed');
     first.image = 'https://example.com/custom-product.jpg';
     first.title = 'Custom product';
     expect(upgradeImages(saved).products[0]).toEqual(first);
+  });
+  it('does not reset gallery edits or deletions after the image upgrade', () => {
+    const saved = structuredClone(initialData);
+    saved.gallery = saved.gallery.slice(1);
+    expect(upgradeImages(saved).gallery).toEqual(saved.gallery);
   });
   it('uses a relevant fallback and then a bundled photograph when an image fails', () => {
     render(<TradeImage src="https://example.com/missing.jpg" alt="Custom product" fallback={tradeImages.warehouse.url} />);

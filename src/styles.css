@@ -1882,7 +1882,6 @@ a:focus-visible {
   }
   .global-section > img {
     width: 100%;
-    opacity: 0.15;
   }
   .why-grid {
     grid-template-columns: 1fr;

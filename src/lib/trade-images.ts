@@ -63,3 +63,4 @@ export const galleryImages = [
   tradeImages.manufacturing, tradeImages.equipment, tradeImages.packaging, tradeImages.production,
   tradeImages.air, tradeImages.road, tradeImages.airport, tradeImages.exportTruck,
 ];
+export const galleryCategories = ['Shipping', 'Warehousing', 'Logistics', 'Products', 'Products', 'Products', 'Business', 'Shipping', 'Products', 'Products', 'Products', 'Warehousing', 'Logistics', 'Logistics', 'Logistics', 'Logistics'];
