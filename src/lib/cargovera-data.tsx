@@ -1,36 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import heroImage from "@/assets/trade-hero.jpg";
-import port from "@/assets/port.jpg.asset.json";
-import warehouse from "@/assets/warehouse.jpg.asset.json";
-import cargo from "@/assets/cargo.jpg.asset.json";
-import p0 from "@/assets/photo-0.jpg.asset.json";
-import p1 from "@/assets/photo-1.jpg.asset.json";
-import p2 from "@/assets/photo-2.jpg.asset.json";
-import p3 from "@/assets/photo-3.jpg.asset.json";
-import p4 from "@/assets/photo-4.jpg.asset.json";
-import p5 from "@/assets/photo-5.jpg.asset.json";
-import p6 from "@/assets/photo-6.jpg.asset.json";
-import p7 from "@/assets/photo-7.jpg.asset.json";
-import p9 from "@/assets/photo-9.jpg.asset.json";
-import p10 from "@/assets/photo-10.jpg.asset.json";
-import p11 from "@/assets/photo-11.jpg.asset.json";
-export const photos = [
-  port.url,
-  warehouse.url,
-  cargo.url,
-  p0.url,
-  p1.url,
-  p2.url,
-  p3.url,
-  p4.url,
-  p5.url,
-  p6.url,
-  p7.url,
-  p9.url,
-  p10.url,
-  p11.url,
-  heroImage,
-] as const;
+import { tradeImages, galleryImages, galleryCategories } from './trade-images';
+export const photos = Object.values(tradeImages).map((image) => image.url);
 export type Entry = {
   id: string;
   title: string;
@@ -58,7 +29,7 @@ type Settings = Record<
   "footer" | "facebook" | "linkedin" | "instagram" | "seoTitle" | "heroCTA",
   string
 >;
-export type SiteData = { company: Company; hero: Hero; settings: Settings } & Record<
+export type SiteData = { company: Company; hero: Hero; settings: Settings; imageVersion?: number } & Record<
   Collection,
   Entry[]
 >;
@@ -78,6 +49,7 @@ const item = (
   ...extra,
 });
 export const initialData: SiteData = {
+  imageVersion: 2,
   company: {
     name: "CARGOVERA TRADING LLP",
     partners: "AAYUSH RAI, PARAM RAJESH PARDESHI",
@@ -112,37 +84,37 @@ export const initialData: SiteData = {
     item(
       "Industrial Products",
       "Dependable industrial and commercial products for growing businesses.",
-      p2.url,
+      tradeImages.manufacturing.url,
       "Industrial",
     ),
     item(
       "Consumer Products",
       "Quality consumer and lifestyle products, sourced for your market.",
-      p5.url,
+      tradeImages.consumer.url,
       "Consumer",
     ),
     item(
       "Packaging & Supplies",
       "Practical packaging and supply solutions for business operations.",
-      p1.url,
+      tradeImages.packaging.url,
       "Packaging",
     ),
     item(
       "General Merchandise",
       "Versatile wholesale merchandise across multiple trading categories.",
-      p3.url,
+      tradeImages.wholesale.url,
       "Merchandise",
     ),
     item(
       "Commercial Goods",
       "Purposeful procurement for business and institutional requirements.",
-      warehouse.url,
+      tradeImages.commercial.url,
       "Commercial",
     ),
     item(
       "Customized Sourcing",
       "The right products, sourced around your specific business needs.",
-      p6.url,
+      tradeImages.equipment.url,
       "Sourcing",
     ),
   ],
@@ -150,32 +122,32 @@ export const initialData: SiteData = {
     item(
       "Global Sourcing",
       "Connecting your business with suitable suppliers and quality products across markets.",
-      port.url,
+      tradeImages.vessel.url,
     ),
     item(
       "Wholesale Trading",
       "Bulk product sourcing and distribution designed around business requirements.",
-      warehouse.url,
+      tradeImages.distribution.url,
     ),
     item(
       "Supplier Coordination",
       "Professional coordination between suppliers and buyers, from introduction to delivery.",
-      p11.url,
+      tradeImages.partnership.url,
     ),
     item(
       "Import & Export Support",
       "Trade-oriented coordination for your international business requirements.",
-      cargo.url,
+      tradeImages.exportTruck.url,
     ),
     item(
       "Product Procurement",
       "Focused product procurement aligned with your specifications and objectives.",
-      p2.url,
+      tradeImages.team.url,
     ),
     item(
       "Business Trade Solutions",
       "Flexible solutions that connect your business to wider trading opportunities.",
-      p6.url,
+      tradeImages.discussion.url,
     ),
   ],
   markets: ["India", "Middle East", "Asia", "Europe", "Global Markets"].map((t, i) =>
@@ -188,33 +160,13 @@ export const initialData: SiteData = {
         "Developing trade connectivity with European business networks.",
         "A wider perspective on sourcing, partnerships and distribution.",
       ][i] || "",
-      photos[i] || heroImage,
+      [tradeImages.port, tradeImages.dubai, tradeImages.containers, tradeImages.road, tradeImages.airport][i]?.url || heroImage,
       "Demo market",
     ),
   ),
-  gallery: photos.map((p, i) =>
-    item(
-      [
-        "International shipping port",
-        "Warehouse operations",
-        "Air cargo connectivity",
-        "Supply chain coordination",
-        "Packaging & handling",
-        "Industrial procurement",
-        "Commercial operations",
-        "Product technology",
-        "Wholesale goods",
-        "Business partnerships",
-        "Cargo handling",
-        "Logistics network",
-        "Container shipping",
-        "Professional coordination",
-        "Global commerce",
-      ][i] || "Global trade",
-      "Trading and business imagery for illustrative purposes.",
-      p,
-      ["Shipping", "Warehousing", "Logistics", "Products", "Business"][i % 5] || "Trading",
-    ),
+  gallery: galleryImages.map((image, i) =>
+    item(image.alt, "Trading and business imagery for illustrative purposes.", image.url,
+      galleryCategories[i] || "Trading"),
   ),
   testimonials: [
     item(
@@ -247,6 +199,22 @@ export const initialData: SiteData = {
     item("Commitment to Reliability", "Business Partnerships", "", "", { value: "100%" }),
   ],
 };
+const legacyPhotoUrls = new Set<string>(["/__l5e/assets-v1/c14a6b48-6914-4408-9f94-9d137f6a87c9/photo-4.jpg", "/__l5e/assets-v1/da67c12b-232b-4c51-83d5-9c9edfbd3bb8/photo-0.jpg", "/__l5e/assets-v1/f7fdb3fa-718c-4d39-842d-ca5c51453e3f/photo-3.jpg", "/__l5e/assets-v1/6c3e2971-7762-4703-9498-cf0e69bddc35/photo-2.jpg", "/__l5e/assets-v1/7929e75b-b315-4033-8e7e-f842878d3aba/photo-1.jpg", "/__l5e/assets-v1/19301c63-a74c-4195-8635-8fc346762178/photo-5.jpg", "/__l5e/assets-v1/bc6e7f36-999d-4544-ae9e-44fd1edc3d7a/photo-7.jpg", "/__l5e/assets-v1/abb0b8b8-f60f-4d69-b953-f88192a4e589/photo-10.jpg", "/__l5e/assets-v1/8c1f9355-0aed-45eb-a973-aaf0945f75c4/photo-11.jpg", "/__l5e/assets-v1/d6ece85a-9b6d-4ab4-9842-77945c653963/photo-9.jpg", "/__l5e/assets-v1/9c315b2a-ac56-4704-8373-6a64c64b3751/photo-6.jpg", "/__l5e/assets-v1/bd020778-a1d5-401c-aa5f-520d1436fcae/port.jpg", "/__l5e/assets-v1/abae19b4-b11e-42d5-9282-d19820526328/warehouse.jpg", "/__l5e/assets-v1/65b6f1cf-5e9f-4061-8989-68d3ee212fb7/cargo.jpg"]);
+export function upgradeImages(saved: SiteData): SiteData {
+  const merged = { ...initialData, ...saved };
+  if (saved.imageVersion === 2) return merged;
+  for (const collection of ['products', 'services', 'markets'] as const) {
+    merged[collection] = merged[collection].map((entry) => {
+      const seed = initialData[collection].find((item) => item.id === entry.id);
+      return seed && legacyPhotoUrls.has(entry.image) ? { ...entry, image: seed.image } : entry;
+    });
+  }
+  if (merged.gallery.some((entry) => legacyPhotoUrls.has(entry.image) && entry.description === 'Trading and business imagery for illustrative purposes.')) {
+    const custom = merged.gallery.filter((entry) => !legacyPhotoUrls.has(entry.image) || entry.description !== 'Trading and business imagery for illustrative purposes.');
+    merged.gallery = [...initialData.gallery, ...custom.filter((entry) => !initialData.gallery.some((seed) => seed.image === entry.image))];
+  }
+  return { ...merged, imageVersion: 2 };
+}
 const KEY = "cargovera-cms-v1";
 const DataContext = createContext<{
   data: SiteData;
@@ -263,14 +231,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const s = localStorage.getItem(KEY);
-      if (s) setData({ ...initialData, ...JSON.parse(s) });
+      if (s) {
+        const upgraded = upgradeImages(JSON.parse(s));
+        setData(upgraded);
+        localStorage.setItem(KEY, JSON.stringify(upgraded));
+      }
       setAuthenticated(localStorage.getItem("cargovera-demo-auth") === "true");
     } catch {}
     setReady(true);
     const sync = (e: StorageEvent) => {
       if (e.key === KEY && e.newValue) {
         try {
-          setData(JSON.parse(e.newValue));
+          setData(upgradeImages(JSON.parse(e.newValue)));
         } catch {}
       }
       if (e.key === "cargovera-demo-auth") setAuthenticated(e.newValue === "true");

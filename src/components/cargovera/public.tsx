@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { active, photos, useData, type Entry } from "@/lib/cargovera-data";
+import { tradeImages } from "@/lib/trade-images";
+import { TradeImage } from "./trade-image";
 import { ActionLink, Brand, Button, Icon, SectionHeading } from "./ui";
 const nav = [
   ["Home", "/"],
@@ -69,6 +71,7 @@ function Footer() {
   return (
     <>
       <section className="cta-band">
+        <TradeImage className="cta-image" src={tradeImages.coordination.url} alt={tradeImages.coordination.alt} loading="lazy" />
         <div className="container cta-inner">
           <div>
             <h2>Let’s build your next trade opportunity.</h2>
@@ -161,7 +164,7 @@ function PageBanner({
   title,
   description,
   eyebrow = "CARGOVERA TRADING LLP",
-  image = photos[0],
+  image = tradeImages.port.url,
 }: {
   title: string;
   description: string;
@@ -170,7 +173,7 @@ function PageBanner({
 }) {
   return (
     <section className="page-banner">
-      <img src={image} alt="International trading operations" />
+      <TradeImage src={image} alt={Object.values(tradeImages).find((photo) => photo.url === image)?.alt || "International trading and wholesale operations"} />
       <div className="container">
         <div className="breadcrumb">
           <Link to="/">Home</Link>
@@ -193,7 +196,7 @@ function Intro({ detailed = false }: { detailed?: boolean }) {
     <section className="section section-white">
       <div className="container intro-grid">
         <div className="intro-visual">
-          <img src={photos[1]} alt="Modern warehouse and wholesale distribution" loading="lazy" />
+          <TradeImage src={detailed ? tradeImages.meeting.url : tradeImages.warehouse.url} alt={detailed ? tradeImages.meeting.alt : tradeImages.warehouse.alt} loading="lazy" />
           <div className="intro-tag">
             <Icon name="globe" size={35} />
             <div>
@@ -266,7 +269,7 @@ function ProductCards({ items }: { items: Entry[] }) {
         {items.map((p, i) => (
           <article className="product-card" key={p.id}>
             <div className="card-image">
-              <img src={p.image || photos[i % photos.length]} alt={p.title} loading="lazy" />
+              <TradeImage src={p.image || photos[i % photos.length]} alt={p.title} loading="lazy" />
               <span className="card-label">{p.category}</span>
             </div>
             <div className="card-body">
@@ -300,7 +303,7 @@ function ProductCards({ items }: { items: Entry[] }) {
                 <Icon name="close" />
               </Button>
             </div>
-            <img src={detail.image || photos[0]} alt={detail.title} />
+            <TradeImage src={detail.image || photos[0]} alt={detail.title} />
             <p>{detail.description}</p>
             <p>
               Discuss specifications, quantities and sourcing requirements with our team. We
@@ -322,6 +325,7 @@ function ServicesGrid() {
     <div className="service-grid">
       {active(data.services).map((s, i) => (
         <article className="service-item" key={s.id}>
+          <TradeImage className="service-photo" src={s.image} alt={s.title} fallback={tradeImages.distribution.url} loading="lazy" />
           <div className="service-symbol">
             <Icon name={names[i % 6]} size={25} />
           </div>
@@ -371,7 +375,7 @@ function GlobalBand() {
   const { data } = useData();
   return (
     <section className="section global-section">
-      <img src={photos[12]} alt="International cargo shipping" loading="lazy" />
+      <TradeImage src={tradeImages.vessel.url} alt={tradeImages.vessel.alt} loading="lazy" />
       <div className="container">
         <SectionHeading
           eyebrow="Beyond boundaries"
@@ -415,7 +419,7 @@ function Testimonials() {
               <p>“{t.description}”</p>
               <div className="quote-person">
                 {t.image ? (
-                  <img className="avatar" src={t.image} alt={t.title} />
+                  <TradeImage className="avatar" src={t.image} alt={t.title} />
                 ) : (
                   <span className="avatar">
                     {t.title
@@ -447,7 +451,7 @@ export function HomePage() {
     <PublicLayout>
       {data.hero.status === "Active" && (
         <section className="hero">
-          <img
+          <TradeImage
             className="hero-image"
             src={data.hero.image || photos[0]}
             alt="Container vessel at an international shipping port"
@@ -535,7 +539,7 @@ export function HomePage() {
               Explore All Categories <Icon size={16} />
             </Link>
           </div>
-          <ProductCards items={active(data.products).slice(0, 3)} />
+          <ProductCards items={active(data.products).slice(0, 6)} />
         </div>
       </section>
       <section className="section section-white">
@@ -578,7 +582,7 @@ export function HomePage() {
             {active(data.gallery)
               .slice(0, 3)
               .map((g) => (
-                <img src={g.image} alt={g.title} key={g.id} loading="lazy" />
+                <TradeImage src={g.image} alt={g.title} key={g.id} loading="lazy" />
               ))}
           </div>
         </div>
@@ -594,6 +598,7 @@ export function AboutPage() {
       <PageBanner
         title="About Us"
         description="A professional approach to trading. A genuine commitment to your business."
+        image={tradeImages.team.url}
       />
       <Intro detailed />
       <Stats />
@@ -604,6 +609,7 @@ export function AboutPage() {
             eyebrow="Our purpose"
             title="Grounded in Values. Focused on Growth."
           />
+          <TradeImage className="about-partnership-photo" src={tradeImages.partnership.url} alt={tradeImages.partnership.alt} loading="lazy" />
           <div className="values-grid">
             <article className="value">
               <h3>Our Vision</h3>
@@ -659,7 +665,7 @@ export function ProductsPage() {
       <PageBanner
         title="Products & Trading Categories"
         description="A diverse portfolio of wholesale categories. Sourcing solutions for your business."
-        image={photos[1]}
+        image={tradeImages.aisles.url}
       />
       <section className="section">
         <div className="container">
@@ -692,7 +698,7 @@ export function ServicesPage() {
       <PageBanner
         title="Our Services"
         description="From sourcing to business connectivity, professional support at every stage of your trade journey."
-        image={photos[2]}
+        image={tradeImages.cargo.url}
       />
       <section className="section section-white">
         <div className="container">
@@ -706,7 +712,7 @@ export function ServicesPage() {
             {active(data.services).map((s) => (
               <article className="product-card" key={s.id}>
                 <div className="card-image">
-                  <img src={s.image || photos[0]} alt={s.title} loading="lazy" />
+                  <TradeImage src={s.image || photos[0]} alt={s.title} loading="lazy" />
                 </div>
                 <div className="card-body">
                   <h3>{s.title}</h3>
@@ -760,6 +766,7 @@ export function GlobalPage() {
       <PageBanner
         title="Global Reach"
         description="Connecting opportunities across markets. Local understanding with an international outlook."
+        image={tradeImages.air.url}
       />
       <section className="section">
         <div className="container">
@@ -773,7 +780,7 @@ export function GlobalPage() {
             {active(data.markets).map((m) => (
               <article className="product-card" key={m.id}>
                 <div className="card-image">
-                  <img src={m.image || photos[0]} alt={m.title} loading="lazy" />
+                  <TradeImage src={m.image || photos[0]} alt={m.title} loading="lazy" />
                   <span className="card-label">Demo market</span>
                 </div>
                 <div className="card-body">
@@ -831,7 +838,7 @@ export function GalleryPage() {
       <PageBanner
         title="Our Gallery"
         description="A visual perspective on global commerce, sourcing and the world of trade."
-        image={photos[12]}
+        image={tradeImages.containers.url}
       />
       <section className="section">
         <div className="container">
@@ -862,7 +869,7 @@ export function GalleryPage() {
                   onClick={() => setSelected(g)}
                   aria-label={`View ${g.title}`}
                 >
-                  <img src={g.image} alt={g.title} loading="lazy" />
+                  <TradeImage src={g.image} alt={g.title} loading="lazy" />
                   <span className="gallery-caption">
                     <strong>{g.title}</strong>
                     <small>{g.category}</small>
@@ -889,7 +896,7 @@ export function GalleryPage() {
                     <Icon name="close" />
                   </Button>
                 </div>
-                <img src={selected.image} alt={selected.title} />
+                <TradeImage src={selected.image} alt={selected.title} />
                 <p>{selected.category} · Illustrative business photography</p>
               </div>
             </div>
@@ -905,6 +912,7 @@ export function WhyPage() {
       <PageBanner
         title="Why Choose CARGOVERA"
         description="A dependable approach to every product, partnership and trading opportunity."
+        image={tradeImages.discussion.url}
       />
       <section className="section section-white">
         <div className="container">
@@ -928,6 +936,7 @@ export function ContactPage() {
       <PageBanner
         title="Contact Us"
         description="Start a conversation. Let’s explore the right trading opportunities for your business."
+        image={tradeImages.commercial.url}
       />
       <section className="section">
         <div className="container contact-grid">
@@ -937,6 +946,7 @@ export function ContactPage() {
               title="Your Next Opportunity Starts Here"
               description="Speak with CARGOVERA TRADING LLP about wholesale trading, sourcing and your business requirements."
             />
+            <TradeImage className="contact-photo" src={tradeImages.partnership.url} alt={tradeImages.partnership.alt} loading="lazy" />
             <div className="contact-detail">
               <span>
                 <Icon name="pin" />
