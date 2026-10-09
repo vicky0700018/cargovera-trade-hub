@@ -7,6 +7,9 @@ export function Icon({ name = "arrow", size = 20 }: { name?: string | undefined;
         <path d="M4 12h15M13 6l6 6-6 6" />
       </>
     ),
+    previous: <path d="M20 12H5m6-6-6 6 6 6" />,
+    pause: <path d="M9 5v14M15 5v14" />,
+    play: <path d="m8 4 12 8-12 8V4Z" />,
     globe: (
       <>
         <circle cx="12" cy="12" r="9" />

@@ -273,6 +273,54 @@ a:focus-visible {
   object-position: center;
   animation: hero-enter 18s ease-out forwards;
 }
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.hero-slide {
+  z-index: auto;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  animation: none;
+}
+.hero-slide.is-active {
+  opacity: 1;
+}
+.hero-slide-controls {
+  z-index: 2;
+}
+.hero-slide-controls .cv-button {
+  color: var(--primary-foreground);
+  transform: none;
+  padding: 0;
+  min-height: 32px;
+  height: 32px;
+  width: 32px;
+}
+.hero-slide-controls .slide-control {
+  border-color: color-mix(in oklch, var(--card) 40%, transparent);
+  background: color-mix(in oklch, var(--primary) 50%, transparent);
+}
+.hero-slide-controls .slide-dot {
+  width: 24px;
+}
+.slide-dot span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--card) 50%, transparent);
+}
+.slide-dot.is-active span {
+  background: var(--accent);
+  width: 20px;
+  border-radius: 3px;
+}
+.slide-count {
+  min-width: 42px;
+  font-variant-numeric: tabular-nums;
+  margin-left: 4px;
+}
 .hero:after {
   content: "";
   position: absolute;

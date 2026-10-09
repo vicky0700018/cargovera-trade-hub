@@ -13,3 +13,5 @@
 - Keep CMS content in a shared React provider persisted to versioned localStorage, because public pages and demo administration must read the same data without a database.
 - Use reusable first-party controls and a shared CSS token system across public and admin pages, because both experiences must retain one brand identity.
 - Centralize trade photo URLs and descriptive alt text in a browser-safe image catalog; render public imagery through the shared fallback control, because CMS URLs can fail and each placement needs a relevant replacement plus a bundled last resort.
+- Introduce new demo product seeds through a one-time versioned content upgrade that preserves existing entries and subsequent deletions, so saved browsers receive additions without losing administrator changes.
+- Keep banner image cycling in a first-party React control with CMS imagery first, pause/manual controls and reduced-motion handling, so the homepage retains editable content without extra libraries.
